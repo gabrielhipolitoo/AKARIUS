@@ -1,25 +1,60 @@
-import logo from './logo.svg';
 import './App.css';
+import Login from './Componentes/Login';
+import Register from './Componentes/Register';
+import UseAuth from './Componentes/Hooks/UseAuth';
+import { useEffect, useState } from 'react';
+import Logado from './Componentes/Logado';
+
+
+
 
 function App() {
+  const {loadStorage} = UseAuth()
+  const [data,setData] = useState()
+
+
+  const exit = () => {
+    const local = window.localStorage.removeItem('logging')
+    console.log('click')
+    setData(local)
+  }
+
+
+  
+  useEffect(() => {
+    const local = loadStorage('logging')
+    console.log(local)
+    setData(local)
+  },[])
+
+
+  const REtorna = () => {
+
+    if(data){
+      return (
+      <>
+      <button onClick={exit}>Sair</button>
+      <Logado/>
+      </>)
+
+    }
+    else{
+      return(<>
+          <Login/>
+          <Register/>
+            </>)
+      
+    }
+
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+    <REtorna/>
+    </>
+  )
+
 }
 
 export default App;
